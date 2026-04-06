@@ -2,19 +2,25 @@
 #include "logger.h"
 #include "core.h"
 #include "timer.h"
+#include "../platform/window.h"
 
 #include <thread>
 #include <string>
+#include <glad/glad.h>
 
 namespace Jack
 {
     Application::Application()
     {
         JACK_LOG_INFO("Application created");
+        m_Window = new Window(1280, 720, "Jack Engine");
     }
 
     Application::~Application()
     {
+        delete m_Window;
+        m_Window = nullptr;
+
         JACK_LOG_INFO("Application destroyed");
     }
 
@@ -24,8 +30,7 @@ namespace Jack
 
         Timer timer;
         double lastTime = timer.ElapsedSeconds();
-
-        int frameCount = 0;
+        double logAccumulator = 0.0;
 
         while (m_Running)
         {
@@ -33,15 +38,21 @@ namespace Jack
             double deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
-            JACK_LOG_INFO(
-                "Frame: " + std::to_string(frameCount) +
-                " | Delta Time: " + std::to_string(deltaTime)
-            );
-            std::this_thread::sleep_for(std::chrono::milliseconds(16));
+            logAccumulator += deltaTime;
+            if (logAccumulator >= 1.0)
+            {
+                JACK_LOG_INFO("Delta Time: " + std::to_string(deltaTime));
+                logAccumulator = 0.0;
+            }
 
-            frameCount++;
+            glViewport(0, 0, 1280, 720);
+            glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
 
-            if (frameCount >= 5)
+            m_Window->SwapBuffers();
+            m_Window->PollEvents();
+
+            if (m_Window->ShouldClose())
             {
                 m_Running = false;
             }

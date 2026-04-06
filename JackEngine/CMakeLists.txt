@@ -12,7 +12,20 @@ endif()
 project ("JackEngine")
 
 # Add source to this project's executable.
-add_executable (JackEngine "JackEngine.cpp" "JackEngine.h" "engine/core/logger.cpp" "engine/core/logger.h" "engine/core/core.h" "engine/core/timer.h" "engine/core/timer.cpp" "engine/core/application.h" "engine/core/application.cpp")
+add_executable (JackEngine "JackEngine.cpp" "JackEngine.h" "engine/core/logger.cpp" "engine/core/logger.h" "engine/core/core.h" "engine/core/timer.h" "engine/core/timer.cpp" "engine/core/application.h" "engine/core/application.cpp" "engine/platform/window.h" "engine/platform/window.cpp")
+
+# Add GLFW
+add_subdirectory(third_party/glfw/)
+
+# Add GLAD
+add_library(glad third_party/glad/src/glad.c)
+
+target_include_directories(glad PUBLIC third_party/glad/include)
+
+target_link_libraries(JackEngine PRIVATE
+	glfw
+	glad
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET JackEngine PROPERTY CXX_STANDARD 20)

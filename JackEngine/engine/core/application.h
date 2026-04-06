@@ -2,6 +2,8 @@
 
 namespace Jack
 {
+    class Window;
+
     class Application
     {
     public:
@@ -12,5 +14,6 @@ namespace Jack
 
     private:
         bool m_Running = true;
+        Window* m_Window = nullptr;
     };
 }
