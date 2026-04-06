@@ -2,7 +2,7 @@
 //
 
 #include "JackEngine.h"
-#include <iostream>
+#include "./engine/core/core.h"
 #include "./engine/core/logger.h"
 
 using namespace std;
@@ -10,9 +10,9 @@ using namespace std;
 
 int main()
 {
-    Jack::Logger::Info("jack Engine Starting");
-    Jack::Logger::Warning("jack Engine test warning");
-    Jack::Logger::Error("jack Engine Test Error");
+    JACK_LOG_INFO("Engine initialized");
+    JACK_LOG_WARN("Test warning");
+    JACK_LOG_ERROR("Test error");
 
     while (true)
     {
