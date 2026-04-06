@@ -12,7 +12,7 @@ endif()
 project ("JackEngine")
 
 # Add source to this project's executable.
-add_executable (JackEngine "JackEngine.cpp" "JackEngine.h" "engine/core/logger.cpp" "engine/core/logger.h" "engine/core/core.h")
+add_executable (JackEngine "JackEngine.cpp" "JackEngine.h" "engine/core/logger.cpp" "engine/core/logger.h" "engine/core/core.h" "engine/core/timer.h" "engine/core/timer.cpp" "engine/core/application.h" "engine/core/application.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET JackEngine PROPERTY CXX_STANDARD 20)
